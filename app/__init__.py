@@ -4,6 +4,7 @@ from flask import Flask, request as req
 
 from app.controllers import pages
 
+# app = Flask(__name__, static_folder=None)
 
 def create_app(config_filename):
     app = Flask(__name__)
