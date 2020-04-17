@@ -1,12 +1,19 @@
 from flask import render_template, Blueprint, request
 from app.forms import *
+from flask_login import login_user, logout_user, login_required, current_user
 
 blueprint = Blueprint('pages', __name__)
 
+from app import db, login_manager
+from app.models import User
 
 ################
 #### routes ####
 ################
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 @blueprint.route('/')
