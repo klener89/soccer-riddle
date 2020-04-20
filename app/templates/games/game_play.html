@@ -1,5 +1,104 @@
 {% extends 'base.html' %}
-{% block title %}Game{% endblock %}
+{% import "games/card.jinja" as card %}
+{% block title %}Play{% endblock %}
 {% block content %}
-<h1>{{game_id}}</h1>
+<div class="pt-5 txt_on_background">
+    <div class="col-12 container">
+        <div class="row justify-content-center">
+            {% if name %}
+            <h5 class="col-6 text-center txt_secondary py-2">
+                Hey {{name}} ! This quiz has been created for you. <br>Have fun
+            </h5>
+            {% endif %}
+        </div>
+        <h5 class="col text-center">
+            Who is the teammate of all the players below
+        </h5>
+        <div class="row justify-content-center">
+            <div class="col-8 col-sm-5 col-lg-3 col-xl-3">
+                {{ card.card(player=player) }}
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="text-center txt_on_background">
+    <h5> Search the player you think could have played with all of the above</h5>
+    <div class="container">
+        <form class="form-group" name="search" action="" method="post">
+            {{ form.csrf_token() }}
+            <div class="row justify-content-center">
+                <div class="input-group col-12 col-sm-5">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-search"></i></span>
+                    </div>
+                    {{form.search(class= "is-invalid form-control" if form.search.errors else "form-control")}}
+                    {% for error in form.search.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="p-2">
+                {{form.submit(class="btn btn-primary")}}
+            </div>
+        </form>
+    </div>
+</div>
+<hr>
+<div class="p-2">
+    <div class="text-center txt_on_background">
+        <h5 class="txt_on_background"> The Team Mates </h5>
+        <small>Click on the players if you search for more information</small>
+    </div>
+    <div class="container">
+        <table class="table table-sm-responsive table-striped table-dark">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Club</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in game.players %}
+                <tr class="text-center" style="transform: rotate(0);">
+                    <th scope="row">
+                        <a href="https://transfermarkt.com{{ player.url | replace('profil','gemeinsameSpiele')}}"
+                            class="stretched-link" target="_blank">
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-4">
+                                    <img src="{{ player.img | replace('small','header')}}" class="img-thumbnail"
+                                        alt="{{ player.name }}">
+                                </div>
+                            </div>
+                        </a>
+                    </th>
+                    <td class="align-middle">{{player.name}}</td>
+                    <td class="align-middle">{{player.age}}</td>
+                    <td class="align-middle">{{player.position}}</td>
+                    <td class="align-middle">{{player.club}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="text-center">
+    <form action="" name="joker" method="post">
+        {%if joker_count<5 %}
+        <button name="joker" value="{{joker_count}}" class="btn btn-danger" type="submit"><i
+                class="fas fa-question"></i> &nbsp; Need a Joker</button>
+        {% else %}
+        <button name="joker" class="btn btn-danger disabled" type="submit" disabled><i class="fas fa-question"></i>
+            &nbsp; You used all your jokers</button>
+        {% endif %}
+    </form>
+</div>
+<script type="text/javascript">
+    let solved = "{{solved}}";
+</script>
 {% endblock %}

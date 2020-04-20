@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}Create new Game{% endblock %}
 {% block content %}
-<h1>Select the teammates</h1>
-<div class="container">
-    <div class="row">
+
+<div class="container text-center">
+<h5>Select the teammates</h5>
+    <div class="row justify-content-center">
         <div class="col-10 col-sm-6 col-md-8">
             <div class="card m-2 text-center">
                 <div class="card-img-top">
@@ -45,17 +46,17 @@
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="inlineDifficulty"
                                         id="inlineRadio1" value="5">
-                                    <label class="form-check-label" for="inlineRadio1">Easy</label>
+                                    <label class="form-check-label badge badge-pill badge-info" for="inlineRadio1">Easy</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="inlineDifficulty"
                                         id="inlineRadio2" value="10">
-                                    <label class="form-check-label" for="inlineRadio2">Medium</label>
+                                    <label class="form-check-label badge badge-pill badge-primary" for="inlineRadio2">Medium</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="inlineDifficulty"
                                         id="inlineRadio2" value="20">
-                                    <label class="form-check-label" for="inlineRadio2">Hard</label>
+                                    <label class="form-check-label badge badge-pill badge-danger" for="inlineRadio2">Hard</label>
                                 </div>
                             </div>
                             <hr>

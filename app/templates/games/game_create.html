@@ -1,53 +1,68 @@
 {% extends 'base.html' %}
 {% block title %}Create new Game{% endblock %}
 {% block content %}
-<h1>Create a new game</h1>
-<form name="search" action="" method="post">
-    {{ form.csrf_token() }}
-
-    {% for field in form if field.name != "csrf_token" %}
-    <p>{{ field }}
-        {% for error in field.errors %}
-        {{ error }}
-        {% endfor %}
-    </p>
-    {% endfor %}
-</form>
-{% if results is defined %}
-{% if results |length %}
-<p>Select your player</p>
-<div class="container">
-    <div class="row">
-        {% for result in results%}
-        <div class="col-sm-12 col-md-4">
-            <div class="card m-2  text-center">
-                <img src="{{ result.img | replace('small','header')  }}"
-                    class="m-3 card-img-top img-thumbnail w-25 mx-auto" alt="{{ result.name }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ result.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Position: {{ result.position }} | Age: {{ result.age }}
-                    </h6>
-                    <ul class="list-group list-group-flush d-flex align-items-center">
-                        <li class="list-group-item d-flex align-items-center"><img class="pr-1"
-                                src="{{ result.club_img }}"> {{ result.club_name }}</li>
-                        <li class="list-group-item d-flex align-items-center"><img class="pr-1"
-                                src="{{ result.nationality_img }}">{{ result.nationality }}
-                        </li>
-                    </ul>
+<div class="container py-5 text-center bg_background">
+    <h5> Create a new game</h5>
+    <form class="form-group" name="search" action="" method="post">
+        {{ form.csrf_token() }}
+        <div class="row justify-content-md-center">
+            <div class="input-group col-12 col-sm-4">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-search"></i></span>
+                </div>
+                {{form.search(class= "form-control")}}
+                {% for error in form.search.errors %}
+                <div class="invalid-feedback">
+                    {{ error }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="p-2">
+            {{form.submit(class="btn btn-primary")}}
+        </div>
+    </form>
+</div>
+<div>
+    {% if results is defined %}
+    {% if results |length %}
+    <h5 class="text-center bg_background">Select the player who will be searched</h5>
+    <div class="container">
+        <div class="row">
+            {% for result in results%}
+            <div class="col-sm-12 col-md-4 py-2">
+                <div class="card m-2 h-100 text-center">
+                    <div class="p-2">
+                        <img src="{{ result.img | replace('small','header')  }}"
+                        class="img-thumbnail mx-auto" alt="{{ result.name }}">
+                    </div>
                     <div class="card-body">
-                        <form id="form_player{{result.id}}" value="{{result.id}}" name="{{result.id}}" method="post">
-                            <button type="submit" form="form_player{{result.id}}" name="player" value="{{result.id}}"
-                                class="btn btn-primary">Select</button>
-                        </form>
+                        <h5 class="card-title">{{ result.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Position: {{ result.position }} | Age: {{ result.age }}
+                        </h6>
+                        <ul class="list-group list-group-flush d-flex align-items-center">
+                            <li class="list-group-item d-flex align-items-center"><img class="pr-1"
+                                    src="{{ result.club_img }}"> {{ result.club_name }}</li>
+                            <li class="list-group-item d-flex align-items-center"><img class="pr-1"
+                                    src="{{ result.nationality_img }}">{{ result.nationality }}
+                            </li>
+                        </ul>
+                        <div class="card-body">
+                            <form id="form_player{{result.id}}" value="{{result.id}}" name="{{result.id}}" method="post">
+                                <button type="submit" form="form_player{{result.id}}" name="player" value="{{result.id}}"
+                                    class="btn btn-primary">Select</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
+    {% else %}
+    <div class="py-5 text-center txt_primary">Sorry we could not find your player. <br> Your search could also be to unspecific</div>
+    {% endif %}
+    {% endif %}
 </div>
-{% else %}
-<p>Sorry we could not find your player</p>
-{% endif %}
-{% endif %}
+
 {% endblock %}

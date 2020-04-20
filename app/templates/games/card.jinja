@@ -1,0 +1,28 @@
+{% macro card(player) -%}
+
+<!-- Font | Optional-->
+{# <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Saira+Semi+Condensed:300,400,700" /> #}
+<!-- *** fut-player-card ***-->
+<div class="fut-player-card">
+    <!-- Player Card Top-->
+    <div class="player-card-top">
+        <div class="player-master-info">
+            <div class="player-rating"><span>{{player.age}}</span></div>
+            <div class="player-position"><span>{{player.position}}</span></div>
+            <div class="player-nation"><img src="{{player.nationality_img}}" alt="{{player.nationality}}"
+                    draggable="false" /></div>
+            <div class="player-club"><img src="{{player.club_img | replace('tiny','head')}}" alt="{{player.club}}" draggable="false" /></div>
+        </div>
+        <div class="player-picture"><img src="{{player.img | replace('small','header')}}" alt="{{player.name}}"
+                draggable="false" style="filter: blur({{player.visibility}}px)"/>
+        </div>
+    </div>
+    <!-- Player Card Bottom-->
+    <div class="player-card-bottom">
+        <div class="player-info">
+            <!-- Player Name-->
+            <div class="player-name"><span>{{player.name}}</span></div>
+        </div>
+    </div>
+</div>
+{%- endmacro %}

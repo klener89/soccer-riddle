@@ -57,19 +57,27 @@ def find_player(name):
             position = club_a.find_next('td')
             club_img = position.find_next('td').find("img")
             age = club_img.find_next('td')
+            
             nationality = age.find_next('td').find('img')
             
             player["id"] = player_a["id"]
             player["img"] = pic["src"]
             player["url"] = player_a["href"]
             player["name"] = player_a["title"]
-            player["age"] = age.text
+            if age.text !="-":
+                player["age"] = age.text
+            else:
+                player["age"] = 0
             player["position"] = position.text
             player["club_id"] = club_a["id"]
             player["club_name"] = club_a.text
             player["club_img"] = club_img["src"]
-            player["nationality"] = nationality["title"]
-            player["nationality_img"] = nationality["src"]
+            if nationality is not None:
+                player["nationality"] = nationality.get("title","NA")
+                player["nationality_img"] = nationality.get("src","")
+            else:
+                player["nationality"] = "NA"
+                player["nationality_img"] = ""
             players.append(player)
     return players
 
