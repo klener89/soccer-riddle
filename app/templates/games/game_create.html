@@ -2,7 +2,7 @@
 {% block title %}Create new Game{% endblock %}
 {% block content %}
 <div class="container py-5 text-center bg_background">
-    <h5> Create a new game</h5>
+    <h3 class="p-3"> Create a new game</h3>
     <form class="form-group" name="search" action="" method="post">
         {{ form.csrf_token() }}
         <div class="row justify-content-md-center">
@@ -25,7 +25,7 @@
 </div>
 <div>
     {% if results is defined %}
-    {% if results |length %}
+    {% if results | length %}
     <h5 class="text-center bg_background">Select the player who will be searched</h5>
     <div class="container">
         <div class="row">
@@ -33,12 +33,13 @@
             <div class="col-sm-12 col-md-4 py-2">
                 <div class="card m-2 h-100 text-center">
                     <div class="p-2">
-                        <img src="{{ result.img | replace('small','header')  }}"
-                        class="img-thumbnail mx-auto" alt="{{ result.name }}">
+                        <img src="{{ result.img | replace('small','header')  }}" class="img-thumbnail mx-auto"
+                            alt="{{ result.name }}">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ result.name }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Position: {{ result.position }} | Age: {{ result.age }}
+                        <h6 class="card-subtitle mb-2 text-muted">Position: {{ result.position }} | Age:
+                            {{ result.age }}
                         </h6>
                         <ul class="list-group list-group-flush d-flex align-items-center">
                             <li class="list-group-item d-flex align-items-center"><img class="pr-1"
@@ -48,9 +49,10 @@
                             </li>
                         </ul>
                         <div class="card-body">
-                            <form id="form_player{{result.id}}" value="{{result.id}}" name="{{result.id}}" method="post">
-                                <button type="submit" form="form_player{{result.id}}" name="player" value="{{result.id}}"
-                                    class="btn btn-primary">Select</button>
+                            <form id="form_player{{result.id}}" value="{{result.id}}" name="{{result.id}}"
+                                method="post">
+                                <button type="submit" form="form_player{{result.id}}" name="player"
+                                    value="{{result.id}}" class="btn btn-primary">Select</button>
                             </form>
                         </div>
                     </div>
@@ -60,9 +62,9 @@
         </div>
     </div>
     {% else %}
-    <div class="py-5 text-center txt_primary">Sorry we could not find your player. <br> Your search could also be to unspecific</div>
+    <div class="py-5 text-center txt_primary">Sorry we could not find your player. <br> Your search could also be to
+        unspecific</div>
     {% endif %}
     {% endif %}
 </div>
-
 {% endblock %}

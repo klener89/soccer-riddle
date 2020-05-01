@@ -2,28 +2,27 @@
 {% import "games/card.jinja" as card %}
 {% block title %}Play{% endblock %}
 {% block content %}
-<div class="pt-5 txt_on_background">
+<div class="pt-md-5 pt-3 txt_on_background">
     <div class="col-12 container">
         <div class="row justify-content-center">
-            {% if name %}
+            {% if from_name or to_name %}
             <h5 class="col-6 text-center txt_secondary py-2">
-                Hey {{name}} ! This quiz has been created for you. <br>Have fun
+                Hey {{to_name}}! I challenge you <i class="fas fa-smile-beam"></i> <br> Have fun {{from_name}}
             </h5>
             {% endif %}
         </div>
-        <h5 class="col text-center">
-            Who is the teammate of all the players below
-        </h5>
-        <div class="row justify-content-center">
+        <h3 class="col text-center">
+            Guess who played with all players on the bottom
+        </h3>
+        <div class="row justify-content-center p-md-3">
             <div class="col-8 col-sm-5 col-lg-3 col-xl-3">
                 {{ card.card(player=player) }}
             </div>
         </div>
     </div>
 </div>
-<hr>
-<div class="text-center txt_on_background">
-    <h5> Search the player you think could have played with all of the above</h5>
+<div class="p-4 text-center txt_on_background">
+    <h5> Search the missing player</h5>
     <div class="container">
         <form class="form-group" name="search" action="" method="post">
             {{ form.csrf_token() }}
@@ -32,7 +31,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-search"></i></span>
                     </div>
-                    {{form.search(class= "is-invalid form-control" if form.search.errors else "form-control")}}
+                    {{form.search(placeholder="Who played with all players below?", class="is-invalid form-control" if form.search.errors else "form-control")}}
                     {% for error in form.search.errors %}
                     <div class="invalid-feedback">
                         {{ error }}
@@ -46,45 +45,50 @@
         </form>
     </div>
 </div>
-<hr>
-<div class="p-2">
-    <div class="text-center txt_on_background">
+<div class="pb-4 d-flex w-50 mx-auto">
+    <hr class="my-auto straight" />
+</div>
+<!-- <div class="p-5 d-flex align-items-center"> </div> -->
+<div class="p-3">
+    <div class="text-center txt_on_background p-2">
         <h5 class="txt_on_background"> The Team Mates </h5>
         <small>Click on the players if you search for more information</small>
     </div>
     <div class="container">
-        <table class="table table-sm-responsive table-striped table-dark">
-            <thead>
-                <tr class="text-center">
-                    <th scope="col"></th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Club</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for player in game.players %}
-                <tr class="text-center" style="transform: rotate(0);">
-                    <th scope="row">
-                        <a href="https://transfermarkt.com{{ player.url | replace('profil','gemeinsameSpiele')}}"
-                            class="stretched-link" target="_blank">
-                            <div class="row justify-content-center">
-                                <div class="col-12 col-md-4">
-                                    <img src="{{ player.img | replace('small','header')}}" class="img-thumbnail"
-                                        alt="{{ player.name }}">
+        <div class="table-responsive">
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Age</th>
+                        <th style="width: 10%" scope="col">Pos.</th>
+                        <th scope="col">Club</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in game.players %}
+                    <tr class="text-center" style="transform: rotate(0);">
+                        <th scope="row">
+                            <a href="https://transfermarkt.com{{ player.url | replace('profil','gemeinsameSpiele')}}"
+                                class="stretched-link link-unstyled" target="_blank">
+                                <div class="row no-gutters justify-content-center">
+                                    <div class="col-12 col-md-4">
+                                        <img src="{{ player.img | replace('small','header')}}"
+                                            class="img-thumbnail" alt="{{ player.name }}">
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </th>
-                    <td class="align-middle">{{player.name}}</td>
-                    <td class="align-middle">{{player.age}}</td>
-                    <td class="align-middle">{{player.position}}</td>
-                    <td class="align-middle">{{player.club}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                            </a>
+                        </th>
+                        <td class="align-middle">{{player.name}}</td>
+                        <td class="align-middle">{{player.age}}</td>
+                        <td class="align-middle">{{player.position}}</td>
+                        <td class="align-middle">{{player.club}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <div class="text-center">
@@ -97,7 +101,12 @@
             &nbsp; You used all your jokers</button>
         {% endif %}
     </form>
+    <div class="d-md-inline-block d-xl-none p-3">
+        <a class="btn btn-primary px-4" href="{{url_for('game.share', game_id=game.id)}}"><i class="fas fa-share-alt"></i> &nbsp;Share</a>
+    </div>
+    
 </div>
+<a style="position:fixed; bottom:5%; right:0;margin:0;padding:5px 3px;" class="d-none d-xl-inline btn btn-primary px-4" href="{{url_for('game.share', game_id=game.id)}}"><i class="fas fa-share-alt"></i> &nbsp;Share</a>
 <script type="text/javascript">
     let solved = "{{solved}}";
 </script>

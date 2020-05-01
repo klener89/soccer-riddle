@@ -1,5 +1,5 @@
 from app.models.games import EnumRole
-
+from fuzzywuzzy import fuzz
 
 def render_level(num):
     val = "primary"
@@ -30,3 +30,8 @@ def replace_joker(player, joker):
     if joker == 4:
         return_player["visibility"] = 7
     return return_player
+
+def compare_players(player_name,search_name):
+    partial_ratio = fuzz.token_set_ratio(player_name.lower(),search_name.lower())
+    result = False if partial_ratio < 80 else True
+    return result

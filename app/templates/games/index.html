@@ -2,37 +2,36 @@
 {% block title %}Soccer Quiz{% endblock %}
 {% block content %}
 
-<div class="container-fluid first-page-hero bg_surface txt_background">
-    <div>
-        <div class="row">
-            <h1 class="col-12 text-center py-5 glow">
-                Who played with all of these stars?
-            </h1>
-            <h2 class="col-12 text-center">
-                Find the missing Teammate
-            </h2>
-        </div>
-        <div class="row d-none d-sm-flex justify-content-md-center">
-            {% for player in demo_game.players %}
-            <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                <div>
-                    {% include 'games/card_legend.html' %}
-                </div>
+<div class="bg_surface txt_on_background">
+    <div class="row">
+        <h1 class="col-12 text-center py-5">
+            Who played with all of these stars?
+        </h1>
+        <h2 class="col-12 text-center">
+            Find the missing Teammate
+        </h2>
+    </div>
+    <div class="row d-none d-sm-flex justify-content-md-center">
+        {% for player in demo_game.players %}
+        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+            <div>
+                {% include 'games/card_legend.html' %}
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
     <div class="p-5">
         <div class="row">
             <br>
             <div class="col-12 text-center p-3">
-                <a class="btn btn-secondary btn-lg py-2" href="{{url_for('game.play', game_id=16)}}"> Start this quiz </a> &nbsp;&nbsp;
-                <a class="btn btn-secondary btn-lg py-2" href="{{url_for('game.play', game_id=random_game_id)}}"> Start a random quiz </a>
+                <a class="btn btn-primary btn-lg py-2" href="{{url_for('game.play', game_id=16)}}"> Start this quiz </a>
+                &nbsp;&nbsp;
+                <a class="btn btn-primary btn-lg py-2" href="{{url_for('game.play', game_id=0)}}"> Start a random quiz
+                </a>
             </div>
         </div>
     </div>
 </div>
-
 <div class="container-fluid overlapLeft bg_background">
     <div class="py-3"></div>
     <div class="py-5">
@@ -45,15 +44,20 @@
                         <th data-class='d-none' style="width: 5%">#</th>
                         <th style="width: 10%">Difficulty</th>
                         <th scope="col">Players</th>
+                        <th>Share</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for game in games_list.items %}
-                    <tr style="transform: rotate(0);">
-                        <th scope="row"><a href="{{ url_for('game.play', game_id=game.id) }}"
-                                class="stretched-link">{{game.id}}</a></th>
-                        <td>{{render_level(game.level)|safe}}</td>
-                        <td>{{ game.players|join(', ', attribute='name')}}</td>
+                    <tr>
+                        <td><a href="{{ url_for('game.play', game_id=game.id) }}" class="link">{{game.id}}</a></td>
+                        <td><a href="{{ url_for('game.play', game_id=game.id) }}"
+                            class="link-unstyled">{{render_level(game.level)|safe}}</a></td>
+                        <td><a href="{{ url_for('game.play', game_id=game.id) }}"
+                            class="link-unstyled text-truncate">{{ game.players|join(', ', attribute='name')}}</a></td>
+                        <td class="text-center">
+                            <a class="btn btn-primary" href="{{url_for('game.share', game_id=game.id)}}">Share</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -86,7 +90,6 @@
                 </ul>
             </nav>
         </div>
-
     </div>
     <hr>
 </div>

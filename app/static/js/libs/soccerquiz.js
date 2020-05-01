@@ -1,8 +1,47 @@
+// Copy2Clipboard Funktions
+function fallbackCopyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        console.log('Fallback: Copying text command was ' + msg);
+    } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
+    }
+
+    document.body.removeChild(textArea);
+}
+
+function copyTextToClipboard(text) {
+    if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text);
+        return;
+    }
+    navigator.clipboard.writeText(text).then(function () {
+        console.log('Async: Copying to clipboard was successful!');
+    }, function (err) {
+        console.error('Async: Could not copy text: ', err);
+    });
+}
+
+
+// Celebation Functions
 if (typeof solved !== 'undefined' && solved === "True") {
     celebrate()
 }
 
-function celebrate(){
+function celebrate() {
     for (var i = 0; i < 250; i++) {
         create(i);
     }
@@ -30,7 +69,7 @@ function create(i) {
         "left": Math.random() * 100 + "%",
         "opacity": Math.random() + 0.5,
         "transform": "rotate(" + Math.random() * 360 + "deg)",
-        "position":'absolute',
+        "position": 'absolute',
         "background-color": colour,
     }).appendTo('.confetti-wrapper');
 

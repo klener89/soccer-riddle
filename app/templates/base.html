@@ -31,26 +31,28 @@
 <body>
   <div class="confetti-wrapper bg_background"></div>
   <!-- Fixed navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark txt_primary">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark txt_primary py-4">
+    <a class="navbar-brand" href="{{ url_for('game.index') }}">
+      <img src="{{url_for('static', filename='img/icon.svg')}}" width="40" height="40" class="mx-2">
+      GuessWho?
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
       aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="{{ url_for('game.index') }}">
-      <img src="{{url_for('static', filename='img/icon.svg')}}" width="30" height="30" class="d-inline-block align-top"
-        alt="">
-      Who did I play with?
-    </a>
 
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active">
-          <a class="nav-link" href="{{url_for('game.index')}}">Play<span class="sr-only">(current)</span></a>
+    <div class="collapse navbar-collapse justify-content-stretch" id="navbarTogglerDemo03">
+      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link link" href="{{url_for('game.index')}}">HOME</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{url_for('game.create')}}">Create Game</a>
+          <a class="nav-link" href="{{url_for('game.create')}}">CREATE GAME</a>
         </li>
       </ul>
+      <form class="form-inline mx-sm-4 my-lg-0">
+        <a class="btn btn-primary btn py-2" href="{{url_for('game.play', game_id=0)}}"> START RANDOM GAME </a>
+      </form>
     </div>
   </nav>
 
@@ -59,9 +61,9 @@
     <div class="container-fluid">
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
-      <div class="alert alert-light text-center" role="alert">
+      <div class="alert text-center bg_secondary" role="alert">
         {% for category, message in messages %}
-        <span>{{ message }}</span>
+        <span class="align-middle">{{ message }}</span>
         {% endfor %}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -69,22 +71,29 @@
       </div>
       {% endif %}
       {% endwith %}
-
+      </div>
       {% block content %}{% endblock %}
-    </div>
   </main>
+  
   <footer class="footer bg_background p-2">
+    <div class="p-4 d-flex">
+      <hr class="my-auto straight" />
+  </div>
     <div class="container text-center p-2">
       <div class="p-1">This content is powered by transfermarkt.com &copy;</div>
-      <div class="p-1">Give them some <i class="fas fa-heart txt_primary"></i> on <a class="txt_primary"
+      <div class="p-1">Give them some <i class="fas fa-heart txt_primary"></i> on <a class="link"
           href="https://www.transfermarkt.com/">transfermarkt.com</a></div>
+      <div class="p-1">Created by <a class="link" href="https://www.klener.dev">Florian Kleiner</a></div>
       {% block footer %}{% endblock %}
     </div>
   </footer>
+  
   <script defer src="/static/js/libs/jquery.min.js"></script>
   <script defer src="/static/js/libs/bootstrap.bundle.min.js"></script>
   <script defer src="/static/js/libs/bootstrap-select.min.js"></script>
   <script defer src="/static/js/libs/soccerquiz.js"></script>
+  {% block scripts %}
+  {% endblock %}
 </body>
 
 </html>
