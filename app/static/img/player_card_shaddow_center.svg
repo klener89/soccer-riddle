@@ -3,11 +3,14 @@
     <defs>
         <style>
             .cls-1 {
-                fill: #1b2227;
+                fill: #a3f7bf;
             }
 
             .cls-2 {
+                stroke-miterlimit: 10;
+                stroke-width: 0.75px;
                 fill: url(#radial-gradient);
+                stroke: url(#radial-gradient-2);
             }
 
             .cls-3 {
@@ -22,22 +25,30 @@
                 fill: #a3f7bf;
             }
         </style>
-        <radialGradient id="radial-gradient" cx="13.39" cy="454.48" fx="-78.69445766444368" r="605.93"
-            gradientUnits="userSpaceOnUse">
+        <radialGradient id="radial-gradient" cx="8" cy="-130.68" r="437.67"
+            gradientTransform="translate(141.11 -122.68) rotate(-90) scale(1 1.02)" gradientUnits="userSpaceOnUse">
             <stop offset="0" stop-color="#fff" />
-            <stop offset="0.15" stop-color="#e2e1e1" stop-opacity="0.88" />
-            <stop offset="0.37" stop-color="#bbbaba" stop-opacity="0.73" />
-            <stop offset="0.57" stop-color="#9c9b9c" stop-opacity="0.61" />
-            <stop offset="0.75" stop-color="#868585" stop-opacity="0.53" />
-            <stop offset="0.9" stop-color="#797778" stop-opacity="0.47" />
-            <stop offset="1" stop-color="#747273" stop-opacity="0.45" />
+            <stop offset="0.09" stop-color="#f0f0f0" stop-opacity="0.94" />
+            <stop offset="0.28" stop-color="#c8c8c8" stop-opacity="0.79" />
+            <stop offset="0.53" stop-color="#888" stop-opacity="0.53" />
+            <stop offset="0.84" stop-color="#313131" stop-opacity="0.19" />
+            <stop offset="1" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="radial-gradient-2" cx="8" cy="5.65" r="324.05" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#fff" />
+            <stop offset="0.21" stop-color="#b8b8b8" />
+            <stop offset="0.42" stop-color="#777" />
+            <stop offset="0.61" stop-color="#444" />
+            <stop offset="0.78" stop-color="#1f1f1f" />
+            <stop offset="0.91" stop-color="#080808" />
+            <stop offset="1" />
         </radialGradient>
     </defs>
-    <title>player_card</title>
+    <title>player_card_1</title>
     <path id="background" class="cls-1"
         d="M-235.89-272.91l1.44,141.42c.36,55.24-.86,112.12.37,167.79-1.52,53.66-.19,110.21-.71,164.63,2.54,35.67-7.18,88.38,13.64,100.43C-146.54,333.43-59.93,352.18,8,393c67.93-40.78,154.54-59.53,229.15-91.6,20.82-12.05,11.1-64.76,13.64-100.43-.52-54.42.81-111-.71-164.63,1.23-55.67,0-112.55.37-167.79l1.44-141.42c.49-13.17-11.49,9.39-88.37-54.25L135-348.51c-24.51-19.07-62.61-28.81-63.65-25.34-3.55,11.89-21.69,17.22-27.42,17C26-357.51,8-381.47,8-381.47s-18,24-35.92,24.63c-5.73.21-23.87-5.12-27.42-17-1-3.47-39.14,6.27-63.65,25.34l-28.53,21.35C-224.4-263.52-236.38-286.08-235.89-272.91Z"
         transform="translate(242.99 392)" />
-    <path id="ligth" class="cls-2"
+    <path id="light2" class="cls-2"
         d="M-235.89-272.91l1.44,141.42c.36,55.24-.86,112.12.37,167.79-1.52,53.66-.19,110.21-.71,164.63,2.54,35.67-7.18,88.38,13.64,100.43C-146.54,333.43-59.93,352.18,8,393c67.93-40.78,154.54-59.53,229.15-91.6,20.82-12.05,11.1-64.76,13.64-100.43-.52-54.42.81-111-.71-164.63,1.23-55.67,0-112.55.37-167.79l1.44-141.42c.49-13.17-11.49,9.39-88.37-54.25L135-348.51c-24.51-19.07-62.61-28.81-63.65-25.34-3.55,11.89-21.69,17.22-27.42,17C26-357.51,8-381.47,8-381.47s-18,24-35.92,24.63c-5.73.21-23.87-5.12-27.42-17-1-3.47-39.14,6.27-63.65,25.34l-28.53,21.35C-224.4-263.52-236.38-286.08-235.89-272.91Z"
         transform="translate(242.99 392)" />
     <g id="middle">

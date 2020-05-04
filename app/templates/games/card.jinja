@@ -1,28 +1,40 @@
 {% macro card(player) -%}
-
-<!-- Font | Optional-->
-{# <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Saira+Semi+Condensed:300,400,700" /> #}
-<!-- *** fut-player-card ***-->
-<div class="fut-player-card">
-    <!-- Player Card Top-->
-    <div class="player-card-top">
-        <div class="player-master-info">
-            <div class="player-rating"><span>{{player.age}}</span></div>
-            <div class="player-position"><span>{{player.position}}</span></div>
-            <div class="player-nation"><img src="{{player.nationality_img}}" alt="{{player.nationality}}"
-                    draggable="false" /></div>
-            <div class="player-club"><img src="{{player.club_img | replace('tiny','head')}}" alt="{{player.club}}" draggable="false" /></div>
-        </div>
-        <div class="player-picture"><img src="{{player.img | replace('small','header')}}" alt="{{player.name}}"
-                draggable="false" style="filter: blur({{player.visibility}}px)"/>
+<div class="container align-items-stretch player-card">
+    <div class="py-3 py-xl-3"></div>
+    <div class="pt-3 pt-xl-5 pb-1 pb-lg-2">
+        <div class="row justify-content-center pt-4">
+            <div class="col-3 my-auto">
+                <div class="row">
+                    <div class="col-12 txt_background text-center h3">
+                        {{player.age}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 txt_background text-center h3">
+                        <strong>{{player.position}}</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <img class="col-12 " src="{{player.nationality_img }}" alt="{{player.nationality}}"
+                        draggable="false" />
+                </div>
+                <div class="row">
+                    <img class="col-12" src="{{player.club_img | replace('tiny','head')}}" alt="{{player.club}}"
+                        draggable="false" />
+                </div>
+            </div>
+            <div class="col-9">
+                <img class="img-responsive w-75 rounded" src="{{player.img | replace('small','header')}}"
+                    alt="{{player.name}}" draggable="false" style="filter: blur({{player.visibility}}px)" />
+            </div>
         </div>
     </div>
-    <!-- Player Card Bottom-->
-    <div class="player-card-bottom">
-        <div class="player-info">
-            <!-- Player Name-->
-            <div class="player-name"><span>{{player.name}}</span></div>
+    <div class="row justify-content-center pt-2 pb-5">
+        <div class="txt_background h4 text-center text-break">
+            {{player.name}}
         </div>
     </div>
+    <div class="py-5 py-sm-4 py-md-5 py-lg-5 py-xl-5"></div>
+<div class="py-5 py-xl-1"></div>
 </div>
 {%- endmacro %}

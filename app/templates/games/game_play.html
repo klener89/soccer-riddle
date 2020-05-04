@@ -14,14 +14,14 @@
         <h3 class="col text-center">
             Guess who played with all players on the bottom
         </h3>
-        <div class="row justify-content-center p-md-3">
-            <div class="col-8 col-sm-5 col-lg-3 col-xl-3">
+        <div id="player-card" class="row justify-content-center">
+            <div class="col-8 col-sm-5 col-lg-4 col-xl-3">
                 {{ card.card(player=player) }}
             </div>
         </div>
     </div>
 </div>
-<div class="p-4 text-center txt_on_background">
+<div class="m-1 text-center txt_on_background">
     <h5> Search the missing player</h5>
     <div class="container">
         <form class="form-group" name="search" action="" method="post">
@@ -48,7 +48,6 @@
 <div class="pb-4 d-flex w-50 mx-auto">
     <hr class="my-auto straight" />
 </div>
-<!-- <div class="p-5 d-flex align-items-center"> </div> -->
 <div class="p-3">
     <div class="text-center txt_on_background p-2">
         <h5 class="txt_on_background"> The Team Mates </h5>
