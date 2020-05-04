@@ -114,9 +114,28 @@ hr.straight {
   background: linear-gradient(90deg, var(--background),var(--secondary),var(--background));
 }
 
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  text-align: center;  
+}
+
+:-ms-input-placeholder {  
+  text-align: center; 
+}
+
 .navbar-dark .navbar-nav .nav-link {
   color: var(--primary)
 }
+
+
+
 
 .link-unstyled, .link-unstyled:visited, .link-unstyled:hover, .link-unstyled:active, .link-unstyled:focus, .link-unstyled:active:hover {
   font-style: inherit;
@@ -222,11 +241,3 @@ hr.straight {
   transition: 200ms ease-in;
   background-size: 100% auto;
 }
-
-/* .h_1 {
-  font-size: calc(1vw + 1vh + 2vmin);
-}
-
-.h_5 {
-  font-size: calc(0.5vw + 0.5vh + 2vmin);
-} */
