@@ -24,7 +24,17 @@
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
   <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
   <link rel="shortcut icon" href="/static/ico/favicon.png">
-  <!-- /favicons -->
+  <!-- /metas -->
+  <meta property="og:title" content="Guess Who?">
+  <meta property="og:description" content="A challenging game to find a missing soccer player">
+  <meta property="og:image" content="{{ url_for('static', filename='img/icon.png', _external=True) }}">
+  <meta property="og:url" content="{{ url_for('game.index', _external=True) }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:site_name" content="GuessWho">
+  <meta name="twitter:image:alt" content="Can you find the missing player?">
+  <meta property="fb:app_id" content="" />
+  <meta name="twitter:site" content="">
+
 
 </head>
 
@@ -71,20 +81,21 @@
       </div>
       {% endif %}
       {% endwith %}
-      </div>
-      {% block content %}{% endblock %}
+    </div>
+    {% block content %}{% endblock %}
   </main>
-  
+
   <footer class="footer bg_background p-2">
     <div class="p-4 d-flex">
       <hr class="my-auto straight" />
-  </div>
+    </div>
     <div class="container text-center p-2">
       <div class="p-1">This content is powered by transfermarkt.com &copy;</div>
       <div class="p-1">Give them some <i class="fas fa-heart txt_primary"></i> on <a class="link"
           href="https://www.transfermarkt.com/">transfermarkt.com</a></div>
       <div class="p-1">Created by <a class="link" href="https://www.klener.dev">Florian Kleiner</a></div>
-      <a id="share_guesswho" class="txt_secondary" onclick="copyTextToClipboard('https://guesswho.games')"><i class="fas fa-share-alt"></i></a>
+      <a id="share_guesswho" class="txt_secondary" onclick="copyTextToClipboard('https://guesswho.games')"><i
+          class="fas fa-share-alt"></i></a>
       {% block footer %}{% endblock %}
     </div>
   </footer>
