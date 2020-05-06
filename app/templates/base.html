@@ -27,7 +27,9 @@
   <!-- /metas -->
   <meta property="og:title" content="Guess Who?">
   <meta property="og:description" content="A challenging game to find a missing soccer player">
-  <meta property="og:image" content="{{ url_for('static', filename='img/icon.png', _external=True) }}">
+  <meta property="og:image" content="{{ url_for('static', filename='img/icon-600px.png', _external=True) }}">
+  <meta property="og:image:width" content="600">
+  <meta property="og:image:height" content="600">
   <meta property="og:url" content="{{ url_for('game.index', _external=True) }}">
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:site_name" content="GuessWho">
