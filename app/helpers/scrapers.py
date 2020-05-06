@@ -7,6 +7,28 @@ from app import db
 from app.models import User, Player
 
 ################
+famous_players = [
+    "lionel-messi", "cristiano-ronaldo", "andres-iniesta", "zlatan-ibrahimovic", "neymar", 
+    "wayne-rooney", "robin-van-persie", "cesc-fabregas", "gerard-pique", 
+    "juan-mata", "leroy-sane", "kylian-mbappe", "erling-haaland", "lautaro-martinez", "kevin-de-bruyne"
+]
+
+positions_choices = {
+    "Goalkeeper" : "GK",
+    "Sweeper": "SW",
+    "CentreBack": "CB",
+    "LeftBack": "LB",
+    "RightBack": "RB",
+    "DefensiveMidfield": "DM",
+    "CentralMidfield": "CM",
+    "RightMidfield": "RM",
+    "LeftMidfield": "LM",
+    "AttackingMidfield" : "AM",
+    "LeftWinger" : "LW",
+    "RightWinger": "RW",
+    "SecondStriker":"SS",
+    "CentreForward": "CF",
+}
 
 user_agent_list = [
     # Chrome
@@ -36,31 +58,45 @@ user_agent_list = [
     "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)",
 ]
 
-
-def request_tm(url):
-    data = requests.get(url, headers={'User-Agent': random.choice(user_agent_list)})
+def request_tm(mates=False, search_name=False, player=""):
+    # Method to make a transfermarkt request with randomized names and user agents
+    # Default is the profile of the player
+    if mates:
+        base_url = "https://www.transfermarkt.com/%s/gemeinsameSpiele/spieler/%s" % (random.choice(famous_players), player)
+    elif search_name:
+        base_url = "https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query=%s&x=0&y=0" % player
+    else:
+        base_url = "https://www.transfermarkt.com/%s/profil/spieler/%s" % (random.choice(famous_players), player)
+    
+    data = requests.get(base_url, headers={'User-Agent': random.choice(user_agent_list)})
     soup = BeautifulSoup(data.text, "html.parser")
     return soup
 
-def find_player(name):
-    url = "https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query=%s&x=0&y=0" % name
-    response = request_tm(url)
+def find_players(name):
+    # search for a player based on his name. returns a list of dicts with the first 10 players found
+    response = request_tm(search_name=True, player=name)
     found = response.find('div', {"class":"table-header"},text=re.compile("^Search results for players.*"))
     table = response.find("table", {"class": "items"})
     players = []
     if table and found:
         for row in table.find_all("table", {"class": "inline-table"}):
             player = {}
+            
+            # Search fields
             pic = row.find("img", {"class": "bilderrahmen-fixed"})
             player_a = row.find("a", {"class": "spielprofil_tooltip"})
             club_a = player_a.find_next('td').find("a")
             position = club_a.find_next('td')
+            
+            # Club information
             club_img = position.find_next('td').find("img")
+            player["club_id"] = club_a["id"]
+            player["club_name"] = club_a.text
+            player["club_img"] = club_img["src"]
+
+            # Player Information
             age = club_img.find_next('td')
-            
-            nationality = age.find_next('td').find('img')
-            
-            player["id"] = player_a["id"]
+            player["player_id"] = player_a["id"]
             player["img"] = pic["src"]
             player["url"] = player_a["href"]
             player["name"] = player_a["title"]
@@ -69,9 +105,10 @@ def find_player(name):
             else:
                 player["age"] = 0
             player["position"] = position.text
-            player["club_id"] = club_a["id"]
-            player["club_name"] = club_a.text
-            player["club_img"] = club_img["src"]
+            
+
+            # Nationality information
+            nationality = age.find_next('td').find('img')
             if nationality is not None:
                 player["nationality"] = nationality.get("title","NA")
                 player["nationality_img"] = nationality.get("src","")
@@ -81,100 +118,74 @@ def find_player(name):
             players.append(player)
     return players
 
+def find_player(player_id):
+    # Find the specific player by his player_id. Returns a player dict if the player can be found
+    # Assumtions: the player_id is correct and player can be found on tm.com
+    
+    # Check if player in db, and use that if so
+    player = db.session.query(Player).filter(Player.player_id == player_id).first()
+    if player:
+        player = player.__dict__
+    else:
+        player = {}
+        response = request_tm(player=str(player_id))
+        player["player_id"] = player_id
 
-def find_mates(id):
-    base_url = "https://www.transfermarkt.com/miroslav-klose/gemeinsameSpiele/spieler/%d" % id
-    response = request_tm(base_url)
+        # Club information
+        club_a = response.find('th', text=re.compile("Current club:*")).findNext('td').find('a')
+        player["club_id"] = club_a["id"]
+        club_img = club_a.find("img")
+        player["club"] = club_img["alt"]
+        player["club_img"] = club_img["src"]
+
+        # Player information
+        pic = response.find("meta", {"property": "og:image"})
+        player["img"] = pic["content"]
+        meta_name = response.find("meta", {"property": "og:title"})
+        player["name"] = meta_name["content"].split(" - ", 1)[0]
+        meta_url = response.find("meta", {"property": "og:url"})
+        player["url"] = meta_url["content"]
+        position = response.find('span', text=re.compile("Position:*")).findNext('span').text
+        position_clean = re.sub('\W+','', position)
+        player["position"] = positions_choices.get(position_clean,"")
+        age = response.find('th', text=re.compile("Age*")).findNext('td').text
+        player["age"] = age
+
+        # Nationality information
+        nationality = response.find('th', text=re.compile("Citizenship*")).findNext('td').find('img')
+        player["nationality"] = nationality["title"]
+        player["nationality_img"] = nationality["src"]
+
+    return player
+
+def find_mates(player_id):
+    # Find all team mates of player by player_id
+    response = request_tm(mates=True, player=str(player_id))
     select = response.find('select', {'name':'gegner'})
     mates = []
+    # use the select field entries to extract all from first page
     for row in select.find_all("option"):
         if not row["value"] == "0":
             mates.append(dict(id=int(row["value"]), name=row.text))
     return mates
 
-
-def add_player(name):
-    players = find_player(name)
-    for player in players:
-        if (
-            not db.session.query(Player)
-            .filter(Player.player_id == player["id"])
-            .first()
-        ):
-            db.session.add(
-                Player(
-                    player_id=player["id"],
-                    name=player["name"],
-                    club_id=player["club_id"],
-                    club=player["club_name"],
-                    club_img=player["club_img"],
-                    img=player["img"],
-                    url=player["url"],
-                    age=player["age"],
-                    position=player["position"],
-                    nationality=player["nationality"],
-                    nationality_img=player["nationality_img"],
-                )
+def add_player(player):
+    # add a player to the database
+    if (not db.session.query(Player).filter(Player.player_id == player["player_id"]).first()):
+        db.session.add(
+            Player(
+                player_id=player["player_id"],
+                name=player["name"],
+                club_id=player["club_id"],
+                club=player["club"],
+                club_img=player["club_img"],
+                img=player["img"],
+                url=player["url"],
+                age=player["age"],
+                position=player["position"],
+                nationality=player["nationality"],
+                nationality_img=player["nationality_img"],
             )
+        )
         db.session.flush()
-    return players
-
-# def extract_player(url):
-#     playerAttributes = {}  # will store all the information in dictionnary
-
-#     content = read_url(url)
-#     soup = BeautifulSoup(content, "html.parser")
-
-#     meta = soup.find("meta", {"property": "og:url"})
-#     print(url)
-#     playerAttributes["id"] = meta["content"].rsplit("/", 1)[-1]
-#     meta_name = soup.find("meta", {"property": "og:title"})
-#     playerAttributes["Name"] = meta_name["content"].split(" - ", 1)[0]
-#     # retrieving picture url and basic name
-#     # link = soup.find("div", {"class":"dataBild"})
-#     # playerAttributes["Picture"] = link.img["src"]
-
-#     # reading tabular info and storing
-#     for link in soup.find_all("table", {"class": "auflistung"}):
-#         for line in link.find_all("tr"):  # , {"class" : "dataValue"}):
-#             text = re.sub("\r|\n|\t|\xa0|  ", "", line.text)
-#             lhs, rhs = text.split(":")
-#             if rhs:
-#                 playerAttributes[lhs] = rhs
-
-#     transfers = soup.find("div", {"class": "transferhistorie"})
-#     transfer_list = []
-#     for tr in transfers.find_all("tr", {"class": "zeile-transfer"}):
-#         tds = tr.find_all("td")
-#         transfer_list.append(
-#             {
-#                 "Season": tds[0].text,
-#                 "Date": tds[1].text,
-#                 "Left": tds[2].a["id"],
-#                 "Joined": tds[6].a["id"],
-#                 "MV": tds[10].text,
-#                 "Fee": tds[11].text,
-#             }
-#         )
-#     url_mates = (
-#         "http://www.transfermarkt.co.uk/eder/gemeinsameSpiele/spieler/%s/ajax/yw1/page/"
-#         % playerAttributes["id"]
-#     )
-#     content_mates_prev = read_url(url_mates + "1")
-#     num_pages = int(
-#         BeautifulSoup(content_mates_prev, "html.parser")
-#         .find("li", {"class": "letzte-seite"})
-#         .a["href"]
-#         .rsplit("/", 1)[-1]
-#     )
-
-#     mates = []
-#     for page_num in range(1, num_pages + 1):
-#         content_1 = read_url(url_mates + str(page_num))
-#         soup_1 = BeautifulSoup(content_1, "html.parser")
-#         for mate in soup_1.find_all("a", {"class": "spielprofil_tooltip"}):
-#             mates.append(mate["id"])
-#     playerAttributes["mates"] = mates
-
-#     players_list.append(playerAttributes)
-#     return True
+    return player

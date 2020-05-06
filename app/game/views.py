@@ -2,7 +2,7 @@ import random
 from app.game import game
 from flask import render_template, redirect, request, url_for, flash, Markup
 from app.game.forms import SearchPlayerForm, SearchGameForm, SearchPlayerGameForm
-from app.helpers.scrapers import find_mates, add_player
+from app.helpers.scrapers import add_player, find_mates, find_player, find_players
 from app.helpers.utils import compare_players,render_level, replace_joker
 
 from flask_login import (
@@ -105,9 +105,11 @@ def play(game_id):
 def create():
     form = SearchPlayerForm()
     if form.validate_on_submit():
-        players = add_player(form.search.data)
+        players = find_players(form.search.data)
         return render_template("games/game_create.html", form=form, results=players)
     if "player" in request.form:
+        player = find_player(int(request.form["player"]))
+        add_player(player)
         return redirect(url_for("game.add_mates", id=request.form["player"]))
     return render_template("games/game_create.html", form=form)
 
@@ -126,9 +128,9 @@ def add_mates(id):
         db.session.add(game)
         db.session.flush()
         for item in request.form.getlist("mateSelect"):
-            player = item.split(" - ", 1)
-            add_player(player[1])
-            player_id = player[0]
+            player_id = item.split(" - ", 1)[0]
+            player = find_player(int(player_id))
+            add_player(player)
             link = LinkGamePlayer(game_id=game.id, player_id=int(player_id))
             db.session.add(link)
         flash("Congratulation, you created a new game")

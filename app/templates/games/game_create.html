@@ -5,7 +5,7 @@
     <h3 class="p-3"> Create a new game</h3>
     <form class="form-group" name="search" action="" method="post">
         {{ form.csrf_token() }}
-        <div class="row justify-content-md-center">
+        <div class="row justify-content-center">
             <div class="input-group col-12 col-sm-4">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-search"></i></span>
@@ -32,8 +32,8 @@
             {% for result in results%}
             <div class="col-sm-12 col-md-4 py-2">
                 <div class="card m-2 h-100 text-center">
-                    <div class="p-2">
-                        <img src="{{ result.img | replace('small','header')  }}" class="img-thumbnail mx-auto"
+                    <div class="p-2 row justify-content-center">
+                        <img class="col-12 col-sm-6" src="{{ result.img | replace('small','header')  }}" class="img-thumbnail mx-auto"
                             alt="{{ result.name }}">
                     </div>
                     <div class="card-body">
@@ -49,20 +49,40 @@
                             </li>
                         </ul>
                         <div class="card-body">
-                            <form id="form_player{{result.id}}" value="{{result.id}}" name="{{result.id}}"
+                            <form id="form_player{{result.player_id}}" value="{{result.player_id}}" name="{{result.player_id}}"
                                 method="post">
-                                <button type="submit" form="form_player{{result.id}}" name="player"
-                                    value="{{result.id}}" class="btn btn-primary">Select</button>
+                                <button type="submit" form="form_player{{result.player_id}}" name="player"
+                                    value="{{result.player_id}}" class="btn btn-primary">Select</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
+            <div class="col-sm-12 col-md-4 py-2">
+                <div class="card m-2 h-100 text-center">
+                    <div class="p-2">
+                        <img src="https://tmssl.akamaized.net/images/portrait/header/default.jpg?lm=1455618221" class="img-thumbnail mx-auto"
+                            alt="player_default">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Your player ist not here?</h5>
+                        <h6 class="card-subtitle mb-2 text-muted p-2">
+                            Please search for a more specific name of your player on <strong>transfermarkt.com</strong>.
+                        </h6>
+                        <h6 class="card-subtitle mb-2 text-muted p-2">
+                            Brasilien players for example also have a real name :)
+                        </h6>
+                        <a class="btn btn-primary" target="_blank"
+                            href="https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query={{search_player}}&x=0&y=0">Search
+                            on TM.com</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {% else %}
-    <div class="py-5 text-center txt_primary">Sorry we could not find your player. <br> Your search could also be to
+    <div class="py-5 text-center text-danger">Sorry we could not find your player. <br> Your search could also be to
         unspecific</div>
     {% endif %}
     {% endif %}

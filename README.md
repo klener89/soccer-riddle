@@ -12,6 +12,7 @@
 * Fine Tune Design
 <!-- * make mobile friendly (also cards, responsive font) -->
 <!-- * change player card background -->
+<!-- * Create Game, Player card image to big -->
 
 ## Bugs
 * Handle POST requests (AJAXS)
