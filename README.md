@@ -28,4 +28,4 @@
 * Clean up project
 <!-- * Sentry -->
 * Share GuessWho on Footer
-* share Whatsapp
+<!-- * share Whatsapp (Tried, lets see) -->

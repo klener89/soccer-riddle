@@ -158,10 +158,11 @@ hr.straight {
   border: 0.1rem solid white;
 }
 
+
 .share_button {
   position:fixed; 
-  bottom:3%; 
-  right:3%;
+  bottom:3vw; 
+  right:3vw;
   margin:0;
   padding:5px 3px; 
   border-radius:30px; 
@@ -255,4 +256,9 @@ hr.straight {
   background: transparent url('../img/player_card_shaddow_center.svg') no-repeat scroll center top;
   transition: 200ms ease-in;
   background-size: 100% auto;
+}
+
+.glow {
+    -webkit-filter: drop-shadow(12px 12px 10px rgb(41, 161, 156, 0.5));
+     filter: drop-shadow(12px 12px 40px rgb(163, 247, 191, 0.5));
 }

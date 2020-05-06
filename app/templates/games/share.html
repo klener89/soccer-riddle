@@ -26,14 +26,34 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="row justify-content-center">
+            <div class="col-10 col-sm-6">
+                <div class="row rounded">
+                    <code style="color: var(--secondary); background-color: var(--surface)" class="col-10 col-sm-11"
+                        id="link_created"></code>
+                    <a id="link_copy" class="btn btn-link col-2 col-sm-1">
+                        <span><i class="fas fa-copy"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div> -->
         <div class="row justify-content-center">
+            <div class="input-group mb-3 col-10 col-sm-6">
+                <input type="text" class="form-control bg-secondary" style="color:var(--secondary)"
+                    aria-describedby="share-link" id="link_created">
+                <div class="input-group-append">
+                    <button id="link_copy" data-toggle="tooltip" title="Link copied" class="txt_secondary bg-secondary rounded-right" type="button"><i class="fas fa-copy"></i></button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row justify-content-center">
             <a id="link_copy" class="btn btn-link col-12 col-md-10 col-xl-8">
                 <kbd class="p-2 mx-2 row">
                     <span class="col-10 col-sm-11 text-truncate w-75" id="link_created"></span>
                     <span class="col-2 col-sm-1"><i class="fas fa-copy"></i></span>
                 </kbd>
             </a>
-        </div>
+        </div> -->
         <div class="p-3">
             <!-- Twitter (url, text, @mention) -->
             <a class="link" target="_blank"
@@ -90,8 +110,8 @@
                     {% for player in game.players %}
                     <tr class="text-center" style="transform: rotate(0);">
                         <th scope="row">
-                                    <img src="{{ player.img | replace('small','header')}}" class="img-fluid img-border rounded mx-auto"
-                                        alt="{{ player.name }}">
+                            <img src="{{ player.img | replace('small','header')}}"
+                                class="img-fluid img-border rounded mx-auto" alt="{{ player.name }}">
                         </th>
                         <td class="align-middle">{{player.name}}</td>
                         <td class="align-middle">{{player.age}}</td>
@@ -110,7 +130,7 @@
 <script>
     var link_base = "{{ url_for('game.play', game_id=game.id, _external=True) }}";
     var linkDiv = document.getElementById('link_created');
-    linkDiv.innerHTML = link_base
+    linkDiv.value = link_base
     var from = ""
     var to = ""
 
@@ -127,14 +147,15 @@
     function createLink() {
         var from_ = (from != "") ? ("from=" + from) : ""
         var to_ = (to != "") ? ("to=" + to) : ""
-        linkDiv.innerHTML = link_base + "?" + from_ + "\&" + to_
+        linkDiv.value = link_base + "?" + from_ + "\&" + to_
     }
 
     var copyBtn = document.getElementById('link_copy')
 
     copyBtn.addEventListener('click', function (event) {
-        var txt = document.getElementById('link_created').innerHTML
+        var txt = document.getElementById('link_created').value
         copyTextToClipboard(txt);
+        $('[data-toggle="tooltip"]').tooltip();  
     });
 </script>
 {% endblock %}
