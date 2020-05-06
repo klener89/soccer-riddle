@@ -135,8 +135,6 @@ hr.straight {
 }
 
 
-
-
 .link-unstyled, .link-unstyled:visited, .link-unstyled:hover, .link-unstyled:active, .link-unstyled:focus, .link-unstyled:active:hover {
   font-style: inherit;
   color: inherit;
@@ -155,6 +153,23 @@ hr.straight {
   vertical-align: inherit;
 }
 
+
+.img-border {
+  border: 0.1rem solid white;
+}
+
+.share_button {
+  position:fixed; 
+  bottom:3%; 
+  right:3%;
+  margin:0;
+  padding:5px 3px; 
+  border-radius:30px; 
+  background-color:var(--secondary);
+  color: var(--txt_secondary);
+  box-shadow: 0 2px 4px -1px var(--primary), 0 4px 5px 0 var(--primary), 0 1px 10px 0 var(--primary);
+  -webkit-box-shadow: 0 2px 4px -1px var(--primary), 0 4px 5px 0 var(--primary), 0 1px 10px 0 var(--primary)
+}
 
 /* Confetti */
 .confetti-wrapper {

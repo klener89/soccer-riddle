@@ -68,7 +68,6 @@ def play(game_id):
         flash("Sorry the game could not be found")
         redirect(url_for("game.index"))
     player = db.session.query(Player).filter(Player.player_id == game.player_id).first()
-    
     # Jokers
     joker_num =0
     if "joker" in request.form:
@@ -78,8 +77,10 @@ def play(game_id):
     form = SearchPlayerGameForm()
     solved = False
     if form.validate_on_submit():
+        game.num_played = game.num_played + 1
         player_validated = compare_players(player.name, form.search.data)
         if player_validated:
+            game.num_solved = game.num_solved + 1
             return_player = player
             solved = True
             message = Markup("Congratulations! You found the right player. It's <a target='_blank' class='badge badge-pill badge-info' href='https://transfermarkt.com%s'>%s</a>" % (player.url, player.name))
@@ -122,8 +123,9 @@ def add_mates(id):
         return redirect(url_for("games.create"))
     mates = find_mates(id)
     if "mateSelect" in request.form:
+        joker = True if request.form.get("joker",None) else False
         game = Game(
-            level=request.form["inlineDifficulty"], user_game=True, player_id=id
+            level=request.form["inlineDifficulty"], user_game=True, player_id=id, joker=joker
         )
         db.session.add(game)
         db.session.flush()

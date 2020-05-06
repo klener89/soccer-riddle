@@ -144,7 +144,7 @@ def find_player(player_id):
         meta_name = response.find("meta", {"property": "og:title"})
         player["name"] = meta_name["content"].split(" - ", 1)[0]
         meta_url = response.find("meta", {"property": "og:url"})
-        player["url"] = meta_url["content"]
+        player["url"] = meta_url["content"].replace("http://www.transfermarkt.com", "")
         position = response.find('span', text=re.compile("Position:*")).findNext('span').text
         position_clean = re.sub('\W+','', position)
         player["position"] = positions_choices.get(position_clean,"")

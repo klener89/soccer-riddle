@@ -16,11 +16,11 @@
 
 ## Bugs
 * Handle POST requests (AJAXS)
-* Get infos for selected mates from individual pages, not search
+<!-- * Get infos for selected mates from individual pages, not search -->
 
 ## Featues:
-* add statistics on how much played
-* restrict joker
+<!-- * add basic statistics on how much played -->
+<!-- * restrict joker -->
 * get common clubs https://www.transfermarkt.de/mario-mandzukic/gemeinsameSpiele/spieler/34572
 * add error handling 404 ...
 * Add User management
