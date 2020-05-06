@@ -10,11 +10,10 @@
 # Todo:
 ## Design:
 * Fine Tune Design
-* make mobile friendly (also cards, responsive font)
-* change player card background
+<!-- * make mobile friendly (also cards, responsive font) -->
+<!-- * change player card background -->
 
 ## Bugs
-* more than one game with player
 * Handle POST requests (AJAXS)
 * Get infos for selected mates from individual pages, not search
 
@@ -26,5 +25,6 @@
 * Add User management
 * Add play against eachother mode
 * Clean up project
-* Sentry
+<!-- * Sentry -->
 * Share GuessWho on Footer
+* share Whatsapp

@@ -1,5 +1,8 @@
 import os
 import logging
+import sentry_sdk
+
+from sentry_sdk.integrations.flask import FlaskIntegration
 from app.config import config
 from flask import Flask
 from flask_login import LoginManager
@@ -8,11 +11,17 @@ from flask_sqlalchemy import SQLAlchemy
 
 from flask import Flask, request as req
 
+
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 login_manager.session_protection = "basic"
 login_manager.login_view = "auth.login"
+
+sentry_sdk.init(
+    dsn="https://c3116739153f4e81b5807c08c3ac9517@o388592.ingest.sentry.io/5225640",
+    integrations=[FlaskIntegration()]
+)
 
 def create_app(config_name=None):
     if not config_name:
