@@ -20,7 +20,7 @@ class Config:
 class DevelopmentConfig(Config):
     ENV_TYPE = "development"
     SQLALCHEMY_DATABASE_URI = (
-        os.environ.get("DEV_DATABASE_URL") or "postgres://wqrxfufzqtssnu:ef4eca07ae484d5a5cf1df59173352210b9edb01e2c3ef51b4f416127190cedb@ec2-54-247-103-43.eu-west-1.compute.amazonaws.com:5432/d5e3u5t7sogjic"
+        os.environ.get("DEV_DATABASE_URL") or ""
     )
     SECRET_KEY = os.environ.get("SECRET_KEY") or "bla" * 10
 
